@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -24,6 +23,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
     }
+
 
     // Método chamado uma vez por requisição para processar o filtro
     @Override
@@ -43,7 +43,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // Se o nome de usuário não for nulo e o usuário não estiver autenticado ainda
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 // Carrega os detalhes do usuário a partir do nome de usuário
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username, token);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username, authorizationHeader);
                 // Valida o token JWT
                 if (jwtUtil.validateToken(token, username)) {
                     // Cria um objeto de autenticação com as informações do usuário
@@ -51,6 +51,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                             userDetails, null, userDetails.getAuthorities());
                     // Define a autenticação no contexto de segurança
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("AUTHENTICATION SET: "
+                            + SecurityContextHolder.getContext().getAuthentication());
+                    System.out.println("JWT USERNAME: " + username);
+                    System.out.println("USER DETAILS: " + userDetails.getUsername());
+                    System.out.println("AUTHORITIES: " + userDetails.getAuthorities());
+                    System.out.println("TOKEN VALID: " + jwtUtil.validateToken(token, username));
                 }
             }
         }
