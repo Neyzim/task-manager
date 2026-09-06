@@ -7,9 +7,13 @@ import com.task.taskmanager.infrastructure.enums.NotificationStatusEnum;
 import com.task.taskmanager.infrastructure.repository.TaskRepository;
 import com.task.taskmanager.infrastructure.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,4 +32,14 @@ public class TaskService {
 
         return taskMapper.toTaskDto(taskRepository.save(entity));
     }
-}
+
+    public List<TaskDto> getTaskPerPeriod(LocalDateTime startDate, LocalDateTime finalDate){
+        return taskMapper.toListTaskDto(taskRepository.findByScheduledDateBetween(startDate, finalDate));
+    }
+
+    public List<TaskDto> getTasksByUserEmail(String token){
+        String email = jwtUtil.extractUsername(token.substring(7));
+        return taskMapper.toListTaskDto(taskRepository.findBycreatedBy(email));
+        }
+    }
+
