@@ -2,7 +2,6 @@ package com.neyzimho.user.bussiness.dto;
 
 import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Setter
