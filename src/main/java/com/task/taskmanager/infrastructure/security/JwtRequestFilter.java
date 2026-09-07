@@ -51,12 +51,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                             userDetails, null, userDetails.getAuthorities());
                     // Define a autenticação no contexto de segurança
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println("AUTHENTICATION SET: "
-                            + SecurityContextHolder.getContext().getAuthentication());
-                    System.out.println("JWT USERNAME: " + username);
-                    System.out.println("USER DETAILS: " + userDetails.getUsername());
-                    System.out.println("AUTHORITIES: " + userDetails.getAuthorities());
-                    System.out.println("TOKEN VALID: " + jwtUtil.validateToken(token, username));
                 }
             }
         }

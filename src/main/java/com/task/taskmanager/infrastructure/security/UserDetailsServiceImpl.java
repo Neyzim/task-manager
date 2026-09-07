@@ -14,7 +14,6 @@ public class UserDetailsServiceImpl {
     private UserClient userClient;
 
     public UserDetails loadUserByUsername(String email, String token){
-        System.out.println("TOKEN::::" + token);
         UserDto userDto = userClient.getUserByEmail(email, token);
 
 
