@@ -35,7 +35,7 @@ public class TaskService {
     }
 
     public List<TaskDto> getTaskPerPeriod(LocalDateTime startDate, LocalDateTime finalDate) {
-        return taskMapper.toListTaskDto(taskRepository.findByScheduledDateBetween(startDate, finalDate));
+        return taskMapper.toListTaskDto(taskRepository.findByScheduledDateBetweenAndStatus(startDate, finalDate, NotificationStatusEnum.PENDING));
     }
 
     public List<TaskDto> getTasksByUserEmail(String token) {
