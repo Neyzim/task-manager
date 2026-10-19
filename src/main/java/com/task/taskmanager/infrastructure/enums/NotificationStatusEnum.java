@@ -4,6 +4,6 @@ public enum NotificationStatusEnum {
 
     PENDING,
     NOTIFIED,
-    CANCELED
-
+    CANCELED,
+    WAITING
 }
